@@ -7,8 +7,8 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 public class App {
     public static void main(String[] args) {
         AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
-        HelloWorld obj = context.getBean("helloWorldBean",HelloWorld.class);
-        obj.printMessage();
+        Car car = context.getBean(Car.class);
+        car.drive();
         context.close();
     }
 }
