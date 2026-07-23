@@ -1,3 +1,4 @@
+package com.example;
 public class HelloWorld {
 
     private String message;
