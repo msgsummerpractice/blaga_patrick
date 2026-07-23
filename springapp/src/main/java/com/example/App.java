@@ -1,14 +1,14 @@
 package com.example;
 
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 /**
  * Hello world!
  */
 public class App {
     public static void main(String[] args) {
-        ApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
-        HelloWorld obj = (HelloWorld) context.getBean("helloWorldBean");
+        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
+        HelloWorld obj = context.getBean("helloWorldBean",HelloWorld.class);
         obj.printMessage();
+        context.close();
     }
 }
