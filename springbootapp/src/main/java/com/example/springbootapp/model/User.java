@@ -21,7 +21,6 @@ public class User {
 
     public void setId(int id){
         this.id = id;
-
     }
 
     public String getFirstName(){
