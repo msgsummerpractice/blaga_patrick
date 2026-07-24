@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -56,6 +57,12 @@ public class UserController {
     public ResponseEntity<String> getAppSettings() {
         logger.info("Fetching application settings");
         return ResponseEntity.ok(" Max Users: " + appSettings.getMaxUsers() + ", Theme: " + appSettings.getTheme());
+    }
+
+    @GetMapping("/{firstName}")
+    public ResponseEntity<User> getUserByFirstName(@PathVariable @Size(min = 3, message = "Minimum size is 3") String firstName) {
+        logger.info("Fetching user by first name: {}", firstName);
+        return ResponseEntity.ok(userService.getUserByFirstName(firstName));
     }
     
 

@@ -16,6 +16,13 @@ public class UserRepository {
         return new ArrayList<>(users);
     }
 
+    public User findByFirstName(String firstName) {
+        return users.stream()
+                .filter(user -> user.getFirstName().equalsIgnoreCase(firstName))
+                .findFirst()
+                .orElse(null);
+    }
+
     public void save(User user) {
         users.add(user);
     }
