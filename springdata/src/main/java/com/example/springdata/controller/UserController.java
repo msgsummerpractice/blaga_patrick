@@ -1,8 +1,12 @@
 package com.example.springdata.controller;
 import org.springframework.http.MediaType;
+import jakarta.validation.Valid;
 import com.example.springdata.repository.UserRepository;
 import com.example.springdata.dto.UserRequest;
 import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import java.util.Optional;
 import com.example.springdata.dto.UserResponse;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -17,13 +21,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.example.springdata.model.User;
 import com.example.springdata.service.UserService;
 
 
 @RestController
-@RequestMapping(value="/api/users", produces= {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
+@RequestMapping(value="/api/users", produces= {MediaType.APPLICATION_JSON_VALUE})
 public class UserController {
 
     private final UserRepository userRepository;
@@ -35,8 +38,8 @@ public class UserController {
     }
 
     @GetMapping
-    public ResponseEntity<List<UserResponse>> getAllUsers() {
-        List<UserResponse> users = userService.getAllUsers();
+    public ResponseEntity<Page<UserResponse>> getAllUsers(@PageableDefault(page = 0 ,size = 10) Pageable pageable) {
+        Page<UserResponse> users = userService.getAllUsers(pageable);
         return ResponseEntity.ok(users);
     }
 
@@ -55,32 +58,39 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<UserResponse> createUser(@RequestBody UserRequest user) {
+    public ResponseEntity<UserResponse> createUser(@Valid @RequestBody UserRequest user) {
         UserResponse createdUser = userService.createUser(user);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdUser);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<UserResponse> updateUser(@PathVariable Long id, @RequestBody User updatedUser){
-        for(User user : userRepository.findAll()){
-            if(user.getId().equals(id)){
-                UserResponse userToUpdate = userService.updateUser(id, updatedUser);
-                return ResponseEntity.ok(userToUpdate);
-            }
-        }
-        return ResponseEntity.notFound().build();
+    public ResponseEntity<UserResponse> updateUser(@PathVariable Long id, @Valid @RequestBody User updatedUser){
+        return userService.findUserById(id)
+                .map(existingUser -> {
+                    UserResponse updatedUserResponse = userService.updateUser(id, updatedUser);
+                    return ResponseEntity.ok(updatedUserResponse);
+                })
+                .orElse(ResponseEntity.notFound().build());
     }
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
-        userService.deleteUser(id);
-        return ResponseEntity.noContent().build();
+        return userRepository.findById(id)
+                .map(user -> {
+                    userRepository.delete(user);
+                    return ResponseEntity.noContent().<Void>build();
+                })
+                .orElse(ResponseEntity.notFound().build());
     }
 
     @PatchMapping("/{id}")
     public ResponseEntity<UserResponse> partialUpdateUser(@PathVariable Long id, @RequestBody User updatedUser) {
-            UserResponse userToUpdate = userService.updateUser(id, updatedUser);
-            return ResponseEntity.ok(userToUpdate);
+           return userService.findUserById(id)
+                .map(existingUser -> {
+                    UserResponse updatedUserResponse = userService.updateUser(id, updatedUser);
+                    return ResponseEntity.ok(updatedUserResponse);
+                })
+                .orElse(ResponseEntity.notFound().build());
         }
     
     

@@ -1,6 +1,9 @@
 package com.example.springdata.service;
 import java.util.List;
 import java.util.Optional;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,11 +32,9 @@ public class UserService {
         return userMapper.mapUserToUserResponse(savedUser);
     }
 
-    public List<UserResponse> getAllUsers() {
-        List<User> users = userRepository.findAll();
-        return users.stream()
-                    .map(userMapper::mapUserToUserResponse)
-                    .toList();
+    public Page<UserResponse> getAllUsers(Pageable pageable) {
+        Page<User> users = userRepository.findAll(pageable);
+        return users.map(userMapper::mapUserToUserResponse);
     }
 
     @Transactional
