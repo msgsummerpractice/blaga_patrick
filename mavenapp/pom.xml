@@ -30,13 +30,4 @@
     <module>module-a</module>
     <module>module-b</module>
   </modules>
-  <dependencies>
-      <!-- Dependența pentru JUnit 5 (Jupiter) -->
-      <dependency>
-          <groupId>org.junit.jupiter</groupId>
-          <artifactId>junit-jupiter</artifactId>
-          <version>5.10.2</version> <!-- Poți folosi ultima versiune stabilă -->
-          <scope>test</scope>
-      </dependency>
-  </dependencies>
 </project>
