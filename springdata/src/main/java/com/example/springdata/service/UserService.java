@@ -1,9 +1,12 @@
 package com.example.springdata.service;
 import java.util.List;
-
+import java.util.Optional;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.example.springdata.ExceptionHandler.UserNotFoundException;
+import com.example.springdata.dto.UserRequest;
+import com.example.springdata.dto.UserResponse;
 import com.example.springdata.model.User;
 import com.example.springdata.repository.UserRepository;
 
@@ -35,9 +38,9 @@ public class UserService {
     }
 
     @Transactional
-    public User updateUser(Long id, User newUser) {
+    public UserResponse updateUser(Long id, User newUser) {
         User existingUser = userRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("User not found with id: " + id));
+                .orElseThrow(() -> new UserNotFoundException("User not found with id: " + id));
 
         if (newUser.getUsername() != null) {
             existingUser.setUsername(newUser.getUsername());
@@ -56,31 +59,29 @@ public class UserService {
             existingUser.setPassword(newUser.getPassword());
         }
 
-        return userRepository.save(existingUser);
+        return convertToResponse(userRepository.save(existingUser));
     }
 
-    public UserRequest findUserById(Long id) {
-        User user = userRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("User not found with id: " + id));
-            
-        return convertToRequest(user);
+    public Optional<UserResponse> findUserById(Long id) {
+        return userRepository.findById(id)
+                .map(this::convertToResponse);
     }
 
     public void deleteUser(Long id) {
         if (!userRepository.existsById(id)) {
-            throw new RuntimeException("User not found with id: " + id);
+            throw new UserNotFoundException("User not found with id: " + id);
         }
         userRepository.deleteById(id);
     }
 
     public User findUserByUsername(String username) {
         return userRepository.findByUsername(username)
-                .orElseThrow(() -> new RuntimeException("User not found with username: " + username));
+                .orElseThrow(() -> new UserNotFoundException("User not found with username: " + username));
     }
 
     public User findUserByEmail(String email) {
         return userRepository.findByEmail(email)
-                .orElseThrow(() -> new RuntimeException("User not found with email: " + email));
+                .orElseThrow(() -> new UserNotFoundException("User not found with email: " + email));
     }
 
     private UserResponse convertToResponse(User user) {
