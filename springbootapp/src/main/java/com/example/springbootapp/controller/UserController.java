@@ -65,9 +65,18 @@ public class UserController {
     }
 
     @GetMapping("/{firstName}")
-    public ResponseEntity<Optional<User>> getUserByFirstName(@PathVariable @Size(min = 3, message = "Minimum size is 3") String firstName) {
+    public ResponseEntity<User> getUserByFirstName(
+        @PathVariable @Size(min = 3, message = "Minimum size is 3") String firstName) {
+
         logger.info("Fetching user by first name: {}", firstName);
-        return ResponseEntity.ok(userService.getUserByFirstName(firstName));
+
+        Optional<User> user = userService.getUserByFirstName(firstName);
+
+        if (user.isPresent()) {
+         return ResponseEntity.ok(user.get());
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @PostMapping("/register")
