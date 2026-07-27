@@ -31,11 +31,10 @@
     <module>module-b</module>
   </modules>
   <dependencies>
-      <!-- Dependența pentru JUnit 5 (Jupiter) -->
       <dependency>
           <groupId>org.junit.jupiter</groupId>
           <artifactId>junit-jupiter</artifactId>
-          <version>5.10.2</version> <!-- Poți folosi ultima versiune stabilă -->
+          <version>5.10.2</version>
           <scope>test</scope>
       </dependency>
   </dependencies>

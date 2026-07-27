@@ -2,6 +2,7 @@ package com.example.springbootapp.repository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Repository;
 
@@ -16,11 +17,11 @@ public class UserRepository {
         return new ArrayList<>(users);
     }
 
-    public User findByFirstName(String firstName) {
+
+    public Optional<User> findByFirstName(String firstName) {
         return users.stream()
                 .filter(user -> user.getFirstName().equalsIgnoreCase(firstName))
-                .findFirst()
-                .orElse(null);
+                .findFirst();
     }
 
     public void save(User user) {

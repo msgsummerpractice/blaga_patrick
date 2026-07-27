@@ -1,5 +1,6 @@
 package com.example.springbootapp.service;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
@@ -23,7 +24,7 @@ public class UserService {
         return userRepository.findAll();
     }
 
-    public User getUserByFirstName(String firstName) {
+    public Optional<User> getUserByFirstName(String firstName) {
         return userRepository.findByFirstName(firstName);
     }
 
