@@ -2,8 +2,10 @@ package com.example.springdata.controller;
 
 import com.example.springdata.repository.UserRepository;
 import java.util.List;
+import com.example.springdata.dto.UserResponse;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -31,28 +33,31 @@ public class UserController {
     }
 
     @GetMapping
-    public ResponseEntity<List<User>> getAllUsers() {
-        List<User> users = userService.getAllUsers();
+    public ResponseEntity<List<UserResponse>> getAllUsers() {
+        List<UserResponse> users = userService.getAllUsers();
         return ResponseEntity.ok(users);
     }
 
     @GetMapping("/{username}")
-    public ResponseEntity<User> getUserByUsername(@PathVariable String username) {
-        User user = userService.findUserByUsername(username);
-        return ResponseEntity.ok(user);
+    public ResponseEntity<UserResponse> getUserByUsername(@PathVariable String username) {
+        UserResponse response = userService.findUserByUsername(username);
+        if(response == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(response);
     }
 
     @PostMapping
-    public ResponseEntity<User> createUser(@RequestBody User user) {
-        User createdUser = userService.createUser(user);
-        return ResponseEntity.ok(createdUser);
+    public ResponseEntity<UserResponse> createUser(@RequestBody User user) {
+        UserResponse createdUser = userService.createUser(user);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdUser);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<User> updateUser(@PathVariable Long id, @RequestBody User updatedUser){
+    public ResponseEntity<UserResponse> updateUser(@PathVariable Long id, @RequestBody User updatedUser){
         for(User user : userRepository.findAll()){
             if(user.getId().equals(id)){
-                User userToUpdate = userService.updateUser(id, updatedUser);
+                UserResponse userToUpdate = userService.updateUser(id, updatedUser);
                 return ResponseEntity.ok(userToUpdate);
             }
         }
@@ -66,10 +71,10 @@ public class UserController {
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<User> partialUpdateUser(@PathVariable Long id, @RequestBody User updatedUser) {
-            User userToUpdate = userService.updateUser(id, updatedUser);
+    public ResponseEntity<UserResponse> partialUpdateUser(@PathVariable Long id, @RequestBody User updatedUser) {
+            UserResponse userToUpdate = userService.updateUser(id, updatedUser);
             return ResponseEntity.ok(userToUpdate);
-        }  
+        }
     
     
     

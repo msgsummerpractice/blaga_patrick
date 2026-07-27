@@ -17,12 +17,21 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public User createUser(User user) {
-        return userRepository.save(user);
+    public UserResponse createUser(UserRequest userRequest) {
+        User user = new User();
+        user.setUsername(userRequest.getUsername());
+        user.setEmail(userRequest.getEmail()); 
+        user.setPassword(userRequest.getPassword());
+
+        User savedUser = userRepository.save(user);
+        return convertToResponse(savedUser);
     }
 
-    public List<User> getAllUsers() {
-        return userRepository.findAll();
+    public List<UserResponse> getAllUsers() {
+        List<User> users = userRepository.findAll();
+        return users.stream()
+                    .map(this::convertToResponse)
+                    .toList();
     }
 
     @Transactional
@@ -50,9 +59,11 @@ public class UserService {
         return userRepository.save(existingUser);
     }
 
-    public User findUserById(Long id) {
-        return userRepository.findById(id)
+    public UserRequest findUserById(Long id) {
+        User user = userRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("User not found with id: " + id));
+            
+        return convertToRequest(user);
     }
 
     public void deleteUser(Long id) {
@@ -72,6 +83,16 @@ public class UserService {
                 .orElseThrow(() -> new RuntimeException("User not found with email: " + email));
     }
 
+    private UserResponse convertToResponse(User user) {
+        UserResponse response = new UserResponse();
+        response.setId(user.getId());
+        response.setUsername(user.getUsername());
+        response.setEmail(user.getEmail());
+        response.setFirstName(user.getFirstName());
+        response.setLastName(user.getLastName());
+        return response;
+
                 
 
+}
 }
