@@ -1,7 +1,9 @@
 package com.example.springdata.controller;
 
 import com.example.springdata.repository.UserRepository;
+import com.example.springdata.dto.UserRequest;
 import java.util.List;
+import java.util.Optional;
 import com.example.springdata.dto.UserResponse;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -45,17 +47,15 @@ public class UserController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    @GetMapping("/{username}")
+    @GetMapping("/by-username/{username}")
     public ResponseEntity<UserResponse> getUserByUsername(@PathVariable String username) {
-        UserResponse response = userService.findUserByUsername(username);
-        if(response == null) {
-            return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.ok(response);
+        return userService.findUserByUsername(username)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping
-    public ResponseEntity<UserResponse> createUser(@RequestBody User user) {
+    public ResponseEntity<UserResponse> createUser(@RequestBody UserRequest user) {
         UserResponse createdUser = userService.createUser(user);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdUser);
     }
@@ -71,7 +71,7 @@ public class UserController {
         return ResponseEntity.notFound().build();
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
         userService.deleteUser(id);
         return ResponseEntity.noContent().build();

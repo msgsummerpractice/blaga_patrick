@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.springdata.ExceptionHandler.UserNotFoundException;
+import com.example.springdata.dto.UserMapper;
 import com.example.springdata.dto.UserRequest;
 import com.example.springdata.dto.UserResponse;
 import com.example.springdata.model.User;
@@ -15,25 +16,23 @@ import com.example.springdata.repository.UserRepository;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final UserMapper userMapper;
 
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, UserMapper userMapper) {
         this.userRepository = userRepository;
+        this.userMapper = userMapper;
     }
 
     public UserResponse createUser(UserRequest userRequest) {
-        User user = new User();
-        user.setUsername(userRequest.getUsername());
-        user.setEmail(userRequest.getEmail()); 
-        user.setPassword(userRequest.getPassword());
-
+        User user = userMapper.mapUserRequestToUser(userRequest);
         User savedUser = userRepository.save(user);
-        return convertToResponse(savedUser);
+        return userMapper.mapUserToUserResponse(savedUser);
     }
 
     public List<UserResponse> getAllUsers() {
         List<User> users = userRepository.findAll();
         return users.stream()
-                    .map(this::convertToResponse)
+                    .map(userMapper::mapUserToUserResponse)
                     .toList();
     }
 
@@ -59,12 +58,12 @@ public class UserService {
             existingUser.setPassword(newUser.getPassword());
         }
 
-        return convertToResponse(userRepository.save(existingUser));
+        return userMapper.mapUserToUserResponse(userRepository.save(existingUser));
     }
 
     public Optional<UserResponse> findUserById(Long id) {
         return userRepository.findById(id)
-                .map(this::convertToResponse);
+                .map(userMapper::mapUserToUserResponse);
     }
 
     public void deleteUser(Long id) {
@@ -74,26 +73,14 @@ public class UserService {
         userRepository.deleteById(id);
     }
 
-    public User findUserByUsername(String username) {
+    public Optional<UserResponse> findUserByUsername(String username) {
         return userRepository.findByUsername(username)
-                .orElseThrow(() -> new UserNotFoundException("User not found with username: " + username));
+                .map(userMapper::mapUserToUserResponse);
     }
 
-    public User findUserByEmail(String email) {
+    public Optional<UserResponse> findUserByEmail(String email) {
         return userRepository.findByEmail(email)
-                .orElseThrow(() -> new UserNotFoundException("User not found with email: " + email));
+                .map(userMapper::mapUserToUserResponse);
     }
 
-    private UserResponse convertToResponse(User user) {
-        UserResponse response = new UserResponse();
-        response.setId(user.getId());
-        response.setUsername(user.getUsername());
-        response.setEmail(user.getEmail());
-        response.setFirstName(user.getFirstName());
-        response.setLastName(user.getLastName());
-        return response;
-
-                
-
-}
 }
