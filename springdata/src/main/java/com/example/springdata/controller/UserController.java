@@ -1,5 +1,5 @@
 package com.example.springdata.controller;
-
+import org.springframework.http.MediaType;
 import com.example.springdata.repository.UserRepository;
 import com.example.springdata.dto.UserRequest;
 import java.util.List;
@@ -23,7 +23,7 @@ import com.example.springdata.service.UserService;
 
 
 @RestController
-@RequestMapping("/api/users")
+@RequestMapping(value="/api/users", produces= {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
 public class UserController {
 
     private final UserRepository userRepository;
