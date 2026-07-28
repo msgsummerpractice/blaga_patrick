@@ -26,7 +26,7 @@ public class UserServiceTest {
     @Test
     void testGetAllUsers_ShouldReturnUserList(){
 
-        User randomUser =  new User(1, "John", "Doe", "john.doe@example.com", "password123");
+        User randomUser =  new User(1L, "John", "Doe", "john.doe@example.com", "password123");
         when(userRepository.findAll()).thenReturn(List.of(randomUser));
 
         List<User> users = userService.getAllUsers();

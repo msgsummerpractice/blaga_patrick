@@ -1,13 +1,19 @@
 package com.example.springbootapp.model;
+
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Size;
+
 public class User {
 
-    private int id;
+    private Long id;
     private String firstName;
     private String lastName;
+    @Email(message = "Email should be valid format")
     private String email;
+    @Size(min = 8, message = "Password should be at least 8 characters long")
     private String password;
 
-    public User(int id, String firstName, String lastName, String email, String password) {
+    public User(Long id, String firstName, String lastName, String email, String password) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -15,11 +21,11 @@ public class User {
         this.password = password;
     }
 
-    public int getId(){
+    public Long getId(){
         return this.id;
     }
 
-    public void setId(int id){
+    public void setId(Long id){
         this.id = id;
     }
 
