@@ -6,7 +6,13 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import com.example.springdata.dto.SignInResponse;
-
+import com.example.springdata.dto.SignUpRequest;
+import com.example.springdata.model.Role;
+import com.example.springdata.model.User;
+import com.example.springdata.dto.SignInResponse;
+import com.example.springdata.repository.UserRepository;
+import com.example.springdata.repository.RoleRepository;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import java.util.Map;
@@ -30,10 +36,18 @@ public class AuthController {
     private final AuthenticationManager authenticationManager;
     private final UserDetailsService userDetailsService;
 
-    public AuthController(AuthService authService, AuthenticationManager authenticationManager, UserDetailsService userDetailsService) {
+    private final UserRepository userRepository;
+    private final RoleRepository roleRepository;
+    private final PasswordEncoder passwordEncoder;
+
+    public AuthController(AuthService authService, AuthenticationManager authenticationManager, UserDetailsService userDetailsService,
+                          UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder) {
         this.authService = authService;
         this.authenticationManager = authenticationManager;
         this.userDetailsService = userDetailsService;
+        this.userRepository = userRepository;
+        this.roleRepository = roleRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @PostMapping("/login")
@@ -66,6 +80,31 @@ public class AuthController {
 
         
     }
+
+    @PostMapping("/register")
+    public ResponseEntity<?> registerUser(@RequestBody SignUpRequest signUpRequest) {
+        
+        if (userRepository.findByUsername(signUpRequest.getUsername()).isPresent()) {
+            return ResponseEntity.badRequest().body(Map.of("error", "username is taken"));
+        }
+
+        User user = new User();
+        user.setUsername(signUpRequest.getUsername());
+        user.setEmail(signUpRequest.getEmail());
+        user.setFirstName(signUpRequest.getFirstName());
+        user.setLastName(signUpRequest.getLastName());
+        
+        user.setPassword(passwordEncoder.encode(signUpRequest.getPassword()));
+
+        Role userRole = roleRepository.findByName("USER")
+                .orElseThrow(() -> new RuntimeException("no role found"));
+        user.getRoles().add(userRole);
+
+        userRepository.save(user);
+
+        return ResponseEntity.ok(Map.of("message", "user registered successfully"));
+    }
+    
     
     
 }
