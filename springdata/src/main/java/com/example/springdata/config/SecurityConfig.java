@@ -36,8 +36,8 @@ public class SecurityConfig {
         http.csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.DELETE,"/**").hasRole("ADMIN")
-                        .anyRequest().authenticated())
-                .httpBasic(withDefaults());
+                        .anyRequest().hasAnyRole("ADMIN", "USER"))
+                .formLogin(form->form.loginPage("/login.html").loginProcessingUrl("/login").permitAll());
         return http.build();
     }
 
