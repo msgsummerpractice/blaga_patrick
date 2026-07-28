@@ -90,30 +90,14 @@ public class UserController {
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<UserResponse> partialUpdateUser(@PathVariable Long id, @RequestBody UserPatchRequest userPatchRequest) {
-           return userService.findUserById(id)
-                .map(existingUser -> {
-                    User updatedUser = new User();
-                    if (userPatchRequest.getUsername() != null) {
-                        updatedUser.setUsername(userPatchRequest.getUsername());
-                    }
-                    if (userPatchRequest.getEmail() != null) {
-                        updatedUser.setEmail(userPatchRequest.getEmail());
-                    }
-                    if (userPatchRequest.getPassword() != null) {
-                        updatedUser.setPassword(userPatchRequest.getPassword());
-                    }
-                    if (userPatchRequest.getFirstName() != null) {
-                        updatedUser.setFirstName(userPatchRequest.getFirstName());
-                    }
-                    if (userPatchRequest.getLastName() != null) {
-                        updatedUser.setLastName(userPatchRequest.getLastName());
-                    }
-                    UserResponse updatedUserResponse = userService.updateUser(id, updatedUser);
-                    return ResponseEntity.ok(updatedUserResponse);
-                })
-                .orElse(ResponseEntity.notFound().build());
-        }
+    public ResponseEntity<UserResponse> partialUpdateUser(
+        @PathVariable Long id,
+        @RequestBody UserPatchRequest request) {
+
+        return userService.partialUpdate(id, request)
+            .map(ResponseEntity::ok)
+            .orElse(ResponseEntity.notFound().build());
+}
     
     
     

@@ -1,5 +1,4 @@
 package com.example.springdata.service;
-import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;
@@ -8,9 +7,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.springdata.ExceptionHandler.UserNotFoundException;
-import com.example.springdata.dto.UserMapper;
+import com.example.springdata.dto.UserPatchRequest;
 import com.example.springdata.dto.UserRequest;
 import com.example.springdata.dto.UserResponse;
+import com.example.springdata.mapper.UserMapper;
 import com.example.springdata.model.User;
 import com.example.springdata.repository.UserRepository;
 
@@ -83,5 +83,26 @@ public class UserService {
         return userRepository.findByEmail(email)
                 .map(userMapper::mapUserToUserResponse);
     }
+
+    public Optional<UserResponse> partialUpdate(Long id, UserPatchRequest request) {
+
+    return userRepository.findById(id)
+            .map(user -> {
+
+                if (request.getUsername() != null) {
+                    user.setUsername(request.getUsername());
+                }
+
+                if (request.getEmail() != null) {
+                    user.setEmail(request.getEmail());
+                }
+
+                if (request.getPassword() != null) {
+                    user.setPassword(request.getPassword());
+                }
+
+                return userMapper.mapUserToUserResponse(userRepository.save(user));
+            });
+}
 
 }
