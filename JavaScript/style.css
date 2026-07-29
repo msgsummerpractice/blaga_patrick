@@ -1,0 +1,48 @@
+body{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+nav{
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+}
+
+.main{
+    width: 40%;
+    height: 60vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    background-color: #f0f0f0;
+    border-radius: 10px;
+}
+
+img{
+    width: 300px;
+    height: 300px;
+}
+
+button{
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border: none;
+    border: 1px solid black;
+    border-radius: 5px;
+    margin-top: 20px;
+    
+}
+
+button:hover{
+    background-color: black;
+    color: white;
+}
