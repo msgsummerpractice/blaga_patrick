@@ -2,22 +2,34 @@ package com.example.springdata.service;
 
 import java.util.Date;
 import java.util.HashMap;
-import javax.crypto.SecretKey;
-import io.jsonwebtoken.io.Decoders;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.stereotype.Service;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
+
+import javax.crypto.SecretKey;
+
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+
+import com.example.springdata.dto.MfaVerificationRequest;
+import com.example.springdata.dto.SignInResponse;
+import com.example.springdata.dto.SignUpRequest;
+import com.example.springdata.model.Role;
+import com.example.springdata.model.User;
+import com.example.springdata.repository.RoleRepository;
+import com.example.springdata.repository.UserRepository;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
-
-
+import io.jsonwebtoken.io.Decoders;
 
 @Service
 public class AuthServiceImpl implements AuthService {
-
 
     @Value("${jwt.secret}")
     private String secretKey;
@@ -26,6 +38,64 @@ public class AuthServiceImpl implements AuthService {
     private long expirationTime;
 
     private final Map<String, String> otpStorage = new ConcurrentHashMap<>();
+
+    private final UserRepository userRepository;
+    private final RoleRepository roleRepository;
+    private final PasswordEncoder passwordEncoder;
+    private final UserDetailsService userDetailsService;
+
+    public AuthServiceImpl(UserRepository userRepository, 
+                           RoleRepository roleRepository, 
+                           PasswordEncoder passwordEncoder, 
+                           UserDetailsService userDetailsService) {
+        this.userRepository = userRepository;
+        this.roleRepository = roleRepository;
+        this.passwordEncoder = passwordEncoder;
+        this.userDetailsService = userDetailsService;
+    }
+
+    
+
+    @Override
+    public void registerUser(SignUpRequest signUpRequest) {
+        if (userRepository.findByUsername(signUpRequest.getUsername()).isPresent()) {
+            throw new IllegalArgumentException("username is taken");
+        }
+
+        User user = new User();
+        user.setUsername(signUpRequest.getUsername());
+        user.setEmail(signUpRequest.getEmail());
+        user.setFirstName(signUpRequest.getFirstName());
+        user.setLastName(signUpRequest.getLastName());
+        
+        user.setPassword(passwordEncoder.encode(signUpRequest.getPassword()));
+
+        Role userRole = roleRepository.findByName("USER")
+                .orElseThrow(() -> new RuntimeException("no role found"));
+        user.getRoles().add(userRole);
+
+        userRepository.save(user);
+    }
+
+    @Override
+    public SignInResponse verifyMfa(MfaVerificationRequest mfaRequest) {
+        boolean isOtpValid = verifyOtp(mfaRequest.getUsername(), mfaRequest.getOtp());
+        
+        if (!isOtpValid) {
+            throw new IllegalArgumentException("Invalid OTP. Please try again.");
+        }
+
+        UserDetails userDetails = userDetailsService.loadUserByUsername(mfaRequest.getUsername());
+        String jwtToken = genereateToken(userDetails);
+
+        List<String> roles = userDetails.getAuthorities().stream()
+                .map(GrantedAuthority::getAuthority)
+                .collect(Collectors.toList());
+
+        return new SignInResponse(jwtToken, roles);
+    }
+
+    
 
     @Override
     public String genereateToken(UserDetails userDetails) {
@@ -48,6 +118,7 @@ public class AuthServiceImpl implements AuthService {
         final String username = extractUsername(token);
         return (username.equals(userDetails.getUsername())) && !isTokenExpired(token);
     }
+
     private boolean isTokenExpired(String token) {
         return extractClaim(token, Claims::getExpiration).before(new Date());
     }
