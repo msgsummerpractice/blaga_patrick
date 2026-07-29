@@ -1,10 +1,11 @@
 import { Component, signal } from '@angular/core';
 import { MatButton } from '@angular/material/button';
-import { MatToolbar } from '@angular/material/toolbar';
 import { MatIcon } from '@angular/material/icon';
+import { Navbar } from './navbar/navbar';
+import { Card } from './card/card';
 @Component({
   selector: 'app-root',
-  imports: [MatButton, MatToolbar, MatIcon],
+  imports: [MatButton, MatIcon, Navbar, Card],
   templateUrl: './app.html',
   styleUrls: ['./app.css'],
 })
