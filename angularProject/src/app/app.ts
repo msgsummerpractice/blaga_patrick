@@ -1,8 +1,8 @@
 import { Component, signal } from '@angular/core';
 import { MatButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
-import { Navbar } from './navbar/navbar';
-import { Card } from './card/card';
+import { Navbar } from './components/navbar/navbar';
+import { Card } from './components/card/card';
 import { RequireAuth } from './require-auth';
 import { RouterOutlet } from '@angular/router';
 @Component({
