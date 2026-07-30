@@ -4,6 +4,6 @@ import { Component } from '@angular/core';
   selector: 'app-logion-component',
   imports: [],
   templateUrl: './logion-component.html',
-  styleUrl: './logion-component.css',
+  styleUrls: ['./logion-component.css'],
 })
 export class LogionComponent {}
