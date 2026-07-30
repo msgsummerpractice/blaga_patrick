@@ -1,6 +1,7 @@
 import { Component, Input, signal, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { MatButton } from '@angular/material/button';
+import { OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-card',
@@ -8,7 +9,7 @@ import { MatButton } from '@angular/material/button';
   templateUrl: './card.html',
   styleUrls: ['./card.css'],
 })
-export class Card {
+export class Card implements OnInit {
   @Input() breed: string = '';
   @Input() description: string = '';
 
@@ -17,9 +18,13 @@ export class Card {
 
   fetchDogImage() {
     this.http
-      .get<{ message: string; status: string }>('https://dog.ceo/api/breeds/images/random')
+      .get<{ message: string; status: string }>('https://dog.ceo/api/breeds/image/random')
       .subscribe((response) => {
         this.dogImage.set(response.message);
       });
+  }
+
+  ngOnInit() {
+    this.fetchDogImage();
   }
 }
