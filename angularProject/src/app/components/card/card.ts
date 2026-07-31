@@ -18,9 +18,11 @@ export class Card implements OnInit {
 
   fetchDogImage() {
     this.http
-      .get<{ message: string; status: string }>('https://dog.ceo/api/breeds/image/random')
+      .get<{ id: string; url: string; width: number; height: number }[]>(
+        'https://api.thecatapi.com/v1/images/search',
+      )
       .subscribe((response) => {
-        this.dogImage.set(response.message);
+        this.dogImage.set(response[0].url);
       });
   }
 
