@@ -1,0 +1,28 @@
+<div class="h-screen flex flex-col items-center justify-center">
+  <h1 class="text-5xl font-bold mb-4">Hello, <span id="idDog">Dog</span>!</h1>
+  <div
+    class="pt-20 flex flex-grid h-auto flex-wrap w-full justify-center align-center text-center gap-10 mt-10"
+  >
+    <app-card
+      [breed]="'Dog Breed 1'"
+      [description]="'Lorem ipsum dolor sit amet, consectetur adipiscing elit.'"
+    ></app-card>
+    <app-card
+      [breed]="'Dog Breed 2'"
+      [description]="'Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'"
+    ></app-card>
+    <app-card
+      [breed]="'Dog Breed 3'"
+      [description]="'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'"
+    ></app-card>
+  </div>
+
+  <div class="flex justify-center w-full mt-10">
+    <button mat-raised-button color="primary">Click Me</button>
+  </div>
+
+  <div *appRequireAuth>
+    <p class="text-center mt-10 text-2xl">You are logged in!</p>
+    <p class="text-center mt-2 text-lg">This content is only visible to logged-in users.</p>
+  </div>
+</div>
