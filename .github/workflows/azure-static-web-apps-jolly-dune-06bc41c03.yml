@@ -29,6 +29,7 @@ jobs:
         working-directory: ./angularProject
         run: |
           npm install
+          chmod +x node_modules/.bin/ng
           npm run build
 
       - name: Build And Deploy
