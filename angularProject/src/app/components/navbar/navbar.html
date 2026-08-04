@@ -1,0 +1,26 @@
+<mat-toolbar
+  color="primary"
+  class="fixed top-0 left-0 shadow-md items-center justify-between flex flex-col gap-5 w-full h-auto py-4"
+>
+  <div class="flex items-center gap-4">
+    <h1 class="text-7xl">Dog Gallery</h1>
+    <a mat-raised-button routerLink="/">Home</a>
+    <a mat-raised-button routerLink="/breeds">Breeds</a>
+    <a mat-raised-button routerLink="/about">About</a>
+  </div>
+
+  <div class="flex items-center gap-4">
+    <button mat-icon-button aria-label="Search">
+      <mat-icon>search</mat-icon>
+    </button>
+    <button mat-icon-button aria-label="Notifications">
+      <mat-icon>notifications</mat-icon>
+    </button>
+    <button mat-icon-button aria-label="Profile">
+      <mat-icon>account_circle</mat-icon>
+    </button>
+    <p>
+      Status:<strong> {{ loggedIn | authStatus }}</strong>
+    </p>
+  </div>
+</mat-toolbar>

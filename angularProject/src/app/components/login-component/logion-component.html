@@ -1,0 +1,28 @@
+<div class="h-screen flex flex-col items-center justify-center shadow-md">
+  <form
+    class="flex flex-col gap-4 items-center justify-between border-2 border-gray-300 p-8 rounded-lg"
+    [formGroup]="loginForm"
+    (ngSubmit)="onSubmit()"
+  >
+    <div>
+      <label for="email">Email:</label>
+      <input id="email" formControlName="email" type="email" placeholder="Enter email" />
+    </div>
+    <div>
+      <label for="password">Password:</label>
+      <input
+        id="password"
+        formControlName="password"
+        type="password"
+        placeholder="Enter password"
+      />
+    </div>
+    <button
+      [disabled]="!loginForm.valid"
+      type="submit"
+      class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600"
+    >
+      Login
+    </button>
+  </form>
+</div>
