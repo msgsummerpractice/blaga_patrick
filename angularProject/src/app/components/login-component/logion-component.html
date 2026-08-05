@@ -4,25 +4,41 @@
     [formGroup]="loginForm"
     (ngSubmit)="onSubmit()"
   >
-    <div>
-      <label for="email">Email:</label>
-      <input id="email" formControlName="email" type="email" placeholder="Enter email" />
+    <div *ngIf="error" class="text-red-500">{{ error }}</div>
+
+    <!-- Login Step -->
+    <div *ngIf="!isOtpStep">
+      <div>
+        <label for="username">Username:</label>
+        <input id="username" formControlName="username" type="text" placeholder="Enter username" />
+      </div>
+      <div>
+        <label for="password">Password:</label>
+        <input
+          id="password"
+          formControlName="password"
+          type="password"
+          placeholder="Enter password"
+        />
+      </div>
     </div>
-    <div>
-      <label for="password">Password:</label>
-      <input
-        id="password"
-        formControlName="password"
-        type="password"
-        placeholder="Enter password"
-      />
+
+    <!-- OTP Step -->
+    <div *ngIf="isOtpStep">
+      <div>
+        <label for="otp">OTP:</label>
+        <input id="otp" formControlName="otp" type="text" placeholder="Enter OTP" />
+      </div>
     </div>
+    <!-- Added missing closing tag here -->
+
+    <!-- Submit Button (moved outside so it shows for both steps) -->
     <button
       [disabled]="!loginForm.valid"
       type="submit"
       class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600"
     >
-      Login
+      {{ isOtpStep ? 'Verify OTP' : 'Login' }}
     </button>
   </form>
 </div>

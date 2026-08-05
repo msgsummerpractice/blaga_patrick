@@ -1,0 +1,11 @@
+.vscode
+./mavenapp/target/
+./mavenapp/.mvn/
+./springapp/target/
+./springapp/target/
+./springapp/.mvn/
+./springapp/.vscode/
+./springapp/.mvn/
+./springdata/.mvn/
+
+
