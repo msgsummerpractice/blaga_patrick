@@ -7,5 +7,6 @@
 ./springapp/.vscode/
 ./springapp/.mvn/
 ./springdata/.mvn/
-
-
+.angular/
+node_modules/
+dist/

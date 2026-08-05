@@ -11,6 +11,5 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./components/login-component/logion-component').then((m) => m.LogionComponent),
   },
-
-  { path: '**', component: NotFoundComponent },
+  { path: '**', redirectTo: '' },
 ];
