@@ -9,7 +9,8 @@ import { MfaResponse } from '../interfaces/mfa-reponse';
 export class AuthService {
   private authenticated: boolean = true;
   private mockToken: string = 'mock-token';
-  private api_url: string = 'http://localhost:8080/auth';
+  private api_url: string =
+    'https://patrickblaga-backend.ambitiouspebble-f84047ca.westeurope.azurecontainerapps.io/auth';
   private http = inject(HttpClient);
 
   isAuthenticated(): boolean {
