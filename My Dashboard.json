@@ -1,0 +1,333 @@
+{
+  "properties": {
+    "lenses": [
+      {
+        "order": 0,
+        "parts": [
+          {
+            "position": {
+              "x": 1,
+              "y": 1,
+              "colSpan": 6,
+              "rowSpan": 4
+            },
+            "metadata": {
+              "inputs": [
+                {
+                  "name": "options",
+                  "isOptional": true
+                },
+                {
+                  "name": "sharedTimeRange",
+                  "isOptional": true
+                }
+              ],
+              "type": "Extension/HubsExtension/PartType/MonitorChartPart",
+              "settings": {
+                "content": {
+                  "options": {
+                    "chart": {
+                      "metrics": [
+                        {
+                          "resourceMetadata": {
+                            "id": "/subscriptions/bff82f66-027a-4464-a242-3e971760bb2e/resourceGroups/patrick_blaga/providers/Microsoft.Web/staticSites/patrick-blaga-frontend"
+                          },
+                          "name": "SiteHits",
+                          "aggregationType": 1,
+                          "namespace": "microsoft.web/staticsites",
+                          "metricVisualization": {
+                            "displayName": "SiteHits",
+                            "resourceDisplayName": "patrick-blaga-frontend"
+                          }
+                        },
+                        {
+                          "resourceMetadata": {
+                            "id": "/subscriptions/bff82f66-027a-4464-a242-3e971760bb2e/resourceGroups/patrick_blaga/providers/Microsoft.Web/staticSites/patrick-blaga-frontend"
+                          },
+                          "name": "SiteErrors",
+                          "aggregationType": 1,
+                          "namespace": "microsoft.web/staticsites",
+                          "metricVisualization": {
+                            "displayName": "SiteErrors",
+                            "resourceDisplayName": "patrick-blaga-frontend"
+                          }
+                        }
+                      ],
+                      "title": "Sum SiteHits and Sum SiteErrors for patrick-blaga-frontend",
+                      "titleKind": 1,
+                      "visualization": {
+                        "chartType": 2,
+                        "legendVisualization": {
+                          "isVisible": true,
+                          "position": 2,
+                          "hideHoverCard": false,
+                          "hideLabelNames": true
+                        },
+                        "axisVisualization": {
+                          "x": {
+                            "isVisible": true,
+                            "axisType": 2
+                          },
+                          "y": {
+                            "isVisible": true,
+                            "axisType": 1
+                          }
+                        },
+                        "disablePinning": true
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          {
+            "position": {
+              "x": 8,
+              "y": 1,
+              "colSpan": 6,
+              "rowSpan": 4
+            },
+            "metadata": {
+              "inputs": [
+                {
+                  "name": "options",
+                  "isOptional": true
+                },
+                {
+                  "name": "sharedTimeRange",
+                  "isOptional": true
+                }
+              ],
+              "type": "Extension/HubsExtension/PartType/MonitorChartPart",
+              "settings": {
+                "content": {
+                  "options": {
+                    "chart": {
+                      "metrics": [
+                        {
+                          "resourceMetadata": {
+                            "id": "/subscriptions/bff82f66-027a-4464-a242-3e971760bb2e/resourceGroups/patrick_blaga/providers/Microsoft.App/containerApps/patrickblaga-backend"
+                          },
+                          "name": "UsageNanoCores",
+                          "aggregationType": 4,
+                          "namespace": "microsoft.app/containerapps",
+                          "metricVisualization": {
+                            "displayName": "CPU Usage",
+                            "resourceDisplayName": "patrickblaga-backend"
+                          }
+                        },
+                        {
+                          "resourceMetadata": {
+                            "id": "/subscriptions/bff82f66-027a-4464-a242-3e971760bb2e/resourceGroups/patrick_blaga/providers/Microsoft.App/containerApps/patrickblaga-backend"
+                          },
+                          "name": "WorkingSetBytes",
+                          "aggregationType": 4,
+                          "namespace": "microsoft.app/containerapps",
+                          "metricVisualization": {
+                            "displayName": "Memory Working Set Bytes",
+                            "resourceDisplayName": "patrickblaga-backend"
+                          }
+                        },
+                        {
+                          "resourceMetadata": {
+                            "id": "/subscriptions/bff82f66-027a-4464-a242-3e971760bb2e/resourceGroups/patrick_blaga/providers/Microsoft.App/containerApps/patrickblaga-backend"
+                          },
+                          "name": "RxBytes",
+                          "aggregationType": 1,
+                          "namespace": "microsoft.app/containerapps",
+                          "metricVisualization": {
+                            "displayName": "Network In Bytes",
+                            "resourceDisplayName": "patrickblaga-backend"
+                          }
+                        },
+                        {
+                          "resourceMetadata": {
+                            "id": "/subscriptions/bff82f66-027a-4464-a242-3e971760bb2e/resourceGroups/patrick_blaga/providers/Microsoft.App/containerApps/patrickblaga-backend"
+                          },
+                          "name": "TxBytes",
+                          "aggregationType": 1,
+                          "namespace": "microsoft.app/containerapps",
+                          "metricVisualization": {
+                            "displayName": "Network Out Bytes",
+                            "resourceDisplayName": "patrickblaga-backend"
+                          }
+                        }
+                      ],
+                      "title": "Avg CPU Usage, Avg Memory Working Set Bytes, and 2 other metrics for patrickblaga-backend",
+                      "titleKind": 1,
+                      "visualization": {
+                        "chartType": 2,
+                        "legendVisualization": {
+                          "isVisible": true,
+                          "position": 2,
+                          "hideHoverCard": false,
+                          "hideLabelNames": true
+                        },
+                        "axisVisualization": {
+                          "x": {
+                            "isVisible": true,
+                            "axisType": 2
+                          },
+                          "y": {
+                            "isVisible": true,
+                            "axisType": 1
+                          }
+                        },
+                        "disablePinning": true
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          {
+            "position": {
+              "x": 15,
+              "y": 1,
+              "colSpan": 6,
+              "rowSpan": 4
+            },
+            "metadata": {
+              "inputs": [
+                {
+                  "name": "options",
+                  "isOptional": true
+                },
+                {
+                  "name": "sharedTimeRange",
+                  "isOptional": true
+                }
+              ],
+              "type": "Extension/HubsExtension/PartType/MonitorChartPart",
+              "settings": {
+                "content": {
+                  "options": {
+                    "chart": {
+                      "metrics": [
+                        {
+                          "resourceMetadata": {
+                            "id": "/subscriptions/bff82f66-027a-4464-a242-3e971760bb2e/resourceGroups/patrick_blaga/providers/Microsoft.App/containerApps/patrickblaga-db"
+                          },
+                          "name": "UsageNanoCores",
+                          "aggregationType": 4,
+                          "namespace": "microsoft.app/containerapps",
+                          "metricVisualization": {
+                            "displayName": "CPU Usage",
+                            "resourceDisplayName": "patrickblaga-db"
+                          }
+                        },
+                        {
+                          "resourceMetadata": {
+                            "id": "/subscriptions/bff82f66-027a-4464-a242-3e971760bb2e/resourceGroups/patrick_blaga/providers/Microsoft.App/containerApps/patrickblaga-db"
+                          },
+                          "name": "WorkingSetBytes",
+                          "aggregationType": 4,
+                          "namespace": "microsoft.app/containerapps",
+                          "metricVisualization": {
+                            "displayName": "Memory Working Set Bytes",
+                            "resourceDisplayName": "patrickblaga-db"
+                          }
+                        },
+                        {
+                          "resourceMetadata": {
+                            "id": "/subscriptions/bff82f66-027a-4464-a242-3e971760bb2e/resourceGroups/patrick_blaga/providers/Microsoft.App/containerApps/patrickblaga-db"
+                          },
+                          "name": "RxBytes",
+                          "aggregationType": 1,
+                          "namespace": "microsoft.app/containerapps",
+                          "metricVisualization": {
+                            "displayName": "Network In Bytes",
+                            "resourceDisplayName": "patrickblaga-db"
+                          }
+                        },
+                        {
+                          "resourceMetadata": {
+                            "id": "/subscriptions/bff82f66-027a-4464-a242-3e971760bb2e/resourceGroups/patrick_blaga/providers/Microsoft.App/containerApps/patrickblaga-db"
+                          },
+                          "name": "TxBytes",
+                          "aggregationType": 1,
+                          "namespace": "microsoft.app/containerapps",
+                          "metricVisualization": {
+                            "displayName": "Network Out Bytes",
+                            "resourceDisplayName": "patrickblaga-db"
+                          }
+                        }
+                      ],
+                      "title": "Avg CPU Usage, Avg Memory Working Set Bytes, and 2 other metrics for patrickblaga-db",
+                      "titleKind": 1,
+                      "visualization": {
+                        "chartType": 2,
+                        "legendVisualization": {
+                          "isVisible": true,
+                          "position": 2,
+                          "hideHoverCard": false,
+                          "hideLabelNames": true
+                        },
+                        "axisVisualization": {
+                          "x": {
+                            "isVisible": true,
+                            "axisType": 2
+                          },
+                          "y": {
+                            "isVisible": true,
+                            "axisType": 1
+                          }
+                        },
+                        "disablePinning": true
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "metadata": {
+      "model": {
+        "timeRange": {
+          "value": {
+            "relative": {
+              "duration": 24,
+              "timeUnit": 1
+            }
+          },
+          "type": "MsPortalFx.Composition.Configuration.ValueTypes.TimeRange"
+        },
+        "filterLocale": {
+          "value": "en-us"
+        },
+        "filters": {
+          "value": {
+            "MsPortalFx_TimeRange": {
+              "model": {
+                "format": "utc",
+                "granularity": "auto",
+                "relative": "24h"
+              },
+              "displayCache": {
+                "name": "UTC Time",
+                "value": "Past 24 hours"
+              },
+              "filteredPartIds": [
+                "StartboardPart-MonitorChartPart-ed2d32d3-6327-4752-8f93-959046ce233a",
+                "StartboardPart-MonitorChartPart-ed2d32d3-6327-4752-8f93-959046ce234c",
+                "StartboardPart-MonitorChartPart-ed2d32d3-6327-4752-8f93-959046ce2358"
+              ]
+            }
+          }
+        }
+      }
+    }
+  },
+  "name": "My Dashboard",
+  "type": "Microsoft.Portal/dashboards",
+  "location": "INSERT LOCATION",
+  "tags": {
+    "hidden-title": "My Dashboard"
+  },
+  "apiVersion": "2022-12-01-preview"
+}
